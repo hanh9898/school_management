@@ -1,0 +1,49 @@
+<!-- Modal xác nhận vô hiệu hóa tài khoản -->
+<div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="deactivateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deactivateModalLabel">Xác nhận vô hiệu hóa tài khoản</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Bạn có chắc chắn muốn vô hiệu hóa tài khoản của <strong>{{ user.get_full_name }}</strong>?
+        </p>
+        <p>Người dùng sẽ không thể đăng nhập vào hệ thống sau khi tài khoản bị vô hiệu hóa.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <form action="{% url 'admin_user_deactivate' user.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Vô hiệu hóa</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal xác nhận kích hoạt tài khoản -->
+<div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="activateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="activateModalLabel">Xác nhận kích hoạt tài khoản</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Bạn có chắc chắn muốn kích hoạt tài khoản của <strong>{{ user.get_full_name }}</strong>?
+        </p>
+        <p>Người dùng sẽ có thể đăng nhập vào hệ thống sau khi tài khoản được kích hoạt.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <form action="{% url 'admin_user_activate' user.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Kích hoạt</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

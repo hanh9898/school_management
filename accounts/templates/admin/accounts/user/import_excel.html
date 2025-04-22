@@ -1,0 +1,110 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrahead %}{{ block.super }}
+<style>
+    .excel-sample {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 4px;
+    }
+    .excel-sample h3 {
+        margin-top: 0;
+    }
+    .excel-sample table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .excel-sample th, .excel-sample td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    .excel-sample th {
+        background-color: #f2f2f2;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='accounts' %}">{% trans 'Accounts' %}</a>
+    &rsaquo; <a href="{% url 'admin:accounts_user_changelist' %}">{% trans 'Users' %}</a>
+    &rsaquo; {% trans 'Import Excel' %}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>{% trans 'Import người dùng từ file Excel' %}</h1>
+    
+    <div class="module">
+        <form enctype="multipart/form-data" method="post" id="import_form">
+            {% csrf_token %}
+            
+            <fieldset class="module aligned">
+                {% for field in form %}
+                <div class="form-row">
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="required">{{ field.label }}:</label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+                        {% if field.errors %}<div class="errors">{{ field.errors }}</div>{% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </fieldset>
+            
+            <div class="submit-row">
+                <input type="submit" class="default" value="{% trans 'Import' %}">
+            </div>
+        </form>
+    </div>
+    
+    <div class="excel-sample">
+        <h3>{% trans 'Mẫu file Excel' %}</h3>
+        <p>{% trans 'File Excel phải có định dạng như sau:' %}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>username*</th>
+                    <th>email</th>
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>role</th>
+                    <th>phone_number</th>
+                    <th>address</th>
+                    <th>is_active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>user1</td>
+                    <td>user1@example.com</td>
+                    <td>Nguyễn</td>
+                    <td>Văn A</td>
+                    <td>teacher</td>
+                    <td>0901234567</td>
+                    <td>Hà Nội</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td>user2</td>
+                    <td>user2@example.com</td>
+                    <td>Trần</td>
+                    <td>Thị B</td>
+                    <td>student</td>
+                    <td>0909876543</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>True</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><small>* Trường bắt buộc</small></p>
+        <p><small>{% trans 'Mật khẩu mặc định cho tất cả tài khoản mới: "password123"' %}</small></p>
+    </div>
+</div>
+{% endblock %} 

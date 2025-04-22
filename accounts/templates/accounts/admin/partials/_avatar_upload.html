@@ -1,0 +1,16 @@
+{% load static %}
+<div class="avatar-container">
+  {% if edit_mode %}
+    <img id="avatar-preview" class="avatar-preview" src="{{ user.get_avatar_url }}" alt="Avatar" data-default-avatar="{% static 'accounts/img/default-avatar.png' %}" />
+    <label for="id_avatar" class="custom-file-upload"><i class="fas fa-upload me-1"></i>Chọn ảnh</label>
+    <input type="file" name="avatar" id="id_avatar" accept="image/*" class="d-none" />
+    <button type="button" id="avatar-clear" class="btn btn-sm btn-outline-secondary"><i class="fas fa-times me-1"></i>Xóa ảnh</button>
+  {% else %}
+    <div class="avatar-preview" id="avatar-preview">
+      <i class="fas fa-user"></i>
+    </div>
+
+    <label for="id_avatar" class="btn btn-outline-primary btn-sm avatar-upload-btn"><i class="fas fa-upload me-1"></i>Tải lên</label>
+    <input type="file" name="avatar" id="id_avatar" class="d-none" accept="image/*" />
+  {% endif %}
+</div>

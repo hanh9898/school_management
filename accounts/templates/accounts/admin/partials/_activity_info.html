@@ -1,0 +1,37 @@
+<div class="form-section">
+  <h5 class="section-title">Lịch sử hoạt động</h5>
+
+  {% if user_activities %}
+    {% for activity in user_activities %}
+      <div class="user-activity activity-{{ activity.activity_type }}">
+        <div class="d-flex">
+          <div class="activity-icon">
+            {% if activity.activity_type == 'login' %}
+              <i class="fas fa-sign-in-alt"></i>
+            {% elif activity.activity_type == 'update' %}
+              <i class="fas fa-edit"></i>
+            {% elif activity.activity_type == 'note' %}
+              <i class="fas fa-sticky-note"></i>
+            {% else %}
+              <i class="fas fa-circle"></i>
+            {% endif %}
+          </div>
+          <div>
+            <div>{{ activity.description }}</div>
+            <div class="activity-time">{{ activity.created_at|date:'d/m/Y H:i' }}</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle me-2"></i>Chưa có hoạt động nào được ghi nhận
+    </div>
+  {% endif %}
+</div>
+
+<div class="form-section mt-4">
+  <h5 class="section-title">Thêm ghi chú</h5>
+  <textarea name="admin_note" class="form-control" rows="3" placeholder="Thêm ghi chú về người dùng này..."></textarea>
+  <div class="form-text">Ghi chú sẽ được lưu vào lịch sử hoạt động của người dùng.</div>
+</div>

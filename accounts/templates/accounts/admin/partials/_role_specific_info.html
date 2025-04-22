@@ -1,0 +1,28 @@
+<!-- Phần thông tin bổ sung cho vai trò học sinh -->
+<div id="student-info" class="role-specific-info mt-4" style="display: {% if not edit_mode or user.role != 'student' %}none{% endif %}">
+  <h5 class="section-title">Thông tin học sinh</h5>
+  <div class="row">
+    <div class="col-md-6">{{ student_form.student_id|as_crispy_field }}</div>
+    <div class="col-md-6">{{ student_form.grade|as_crispy_field }}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">{{ student_form.class_name|as_crispy_field }}</div>
+    <div class="col-md-6">{{ student_form.enrollment_date|as_crispy_field }}</div>
+  </div>
+</div>
+
+<!-- Phần thông tin bổ sung cho vai trò giáo viên -->
+<div id="teacher-info" class="role-specific-info mt-4" style="display: {% if not edit_mode or user.role != 'teacher' %}none{% endif %}">
+  <h5 class="section-title">Thông tin giáo viên</h5>
+  <div class="row">
+    <div class="col-md-6">{{ teacher_form.employee_id|as_crispy_field }}</div>
+    <div class="col-md-6">{{ teacher_form.position|as_crispy_field }}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">{{ teacher_form.department|as_crispy_field }}</div>
+    <div class="col-md-6">{{ teacher_form.hire_date|as_crispy_field }}</div>
+  </div>
+  <div class="row">
+    <div class="col-12">{{ teacher_form.specialization|as_crispy_field }}</div>
+  </div>
+</div>

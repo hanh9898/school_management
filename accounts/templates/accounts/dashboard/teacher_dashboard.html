@@ -1,0 +1,131 @@
+{% extends "accounts/dashboard/base_dashboard.html" %}
+{% load static %}
+{% load i18n %}
+{% load form_tags %}
+
+{% block title %}Teacher Dashboard | {{ block.super }}{% endblock %}
+
+{% block dashboard_title %}Dashboard Giáo Viên{% endblock %}
+{% block dashboard_subtitle %}Chào mừng {{ user.get_full_name }} đến với hệ thống quản lý trường học{% endblock %}
+
+{% block dashboard_cards %}
+
+<!-- Thông tin cá nhân -->
+<div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100">
+        <div class="card-header">
+            <i class="fas fa-user me-2"></i>Thông tin cá nhân
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="{{ user.get_full_name }}" class="profile-img mb-3">
+                {% else %}
+                    <i class="fas fa-user-circle" style="font-size: 100px; color: #ddd;"></i>
+                {% endif %}
+                <h5>{{ user.get_full_name }}</h5>
+                <span class="role-badge role-{{ user.role }}">{{ user.get_role_display }}</span>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <i class="fas fa-envelope me-2"></i><strong>Email:</strong>
+                    {% if user.email %}{{ user.email }}{% else %}<span class="text-muted">Chưa cập nhật</span>{% endif %}
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-phone me-2"></i><strong>Số điện thoại:</strong>
+                    {% if user.phone_number %}{{ user.phone_number }}{% else %}<span class="text-muted">Chưa cập nhật</span>{% endif %}
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-calendar me-2"></i><strong>Ngày sinh:</strong>
+                    {% if user.date_of_birth %}{{ user.date_of_birth|date:"d/m/Y" }}{% else %}<span class="text-muted">Chưa cập nhật</span>{% endif %}
+                </li>
+            </ul>
+
+            <div class="text-center mt-3">
+                <a href="{% url 'profile' %}" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i>Cập nhật hồ sơ
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lớp học và lịch dạy -->
+<div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100">
+        <div class="card-header">
+            <i class="fas fa-calendar-alt me-2"></i>Lớp học & Lịch dạy
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Chức năng quản lý lớp học và lịch dạy đang được phát triển.
+            </div>
+
+            <h6 class="mb-3">Lớp chủ nhiệm</h6>
+            <p class="text-muted">{% if teacher.homeroom_class %}{{ teacher.homeroom_class }}{% else %}Chưa có thông tin lớp chủ nhiệm{% endif %}</p>
+
+            <h6 class="mb-3 mt-4">Lịch dạy hôm nay</h6>
+            <p class="text-muted">Chưa có lịch dạy</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tài khoản và bảo mật -->
+<div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100">
+        <div class="card-header">
+            <i class="fas fa-shield-alt me-2"></i>Tài khoản & Bảo mật
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-key me-2"></i><strong>Mật khẩu</strong>
+                        </div>
+                        <a href="{% url 'change_password' %}" class="btn btn-sm btn-outline-primary">Đổi mật khẩu</a>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-clock me-2"></i><strong>Đăng nhập lần cuối</strong>
+                        </div>
+                        <span>{{ user.last_login|date:"d/m/Y H:i" }}</span>
+                    </div>
+                </li>
+            </ul>
+
+            <h6 class="mb-2">Nhóm và quyền</h6>
+            <p class="mb-2"><strong>Nhóm:</strong></p>
+            <div class="mb-3">
+                {% for group in user.groups.all %}
+                    <span class="badge bg-secondary">{{ group.name }}</span>
+                {% empty %}
+                    <span class="text-muted">Không có nhóm</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quản lý học sinh -->
+<div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100">
+        <div class="card-header">
+            <i class="fas fa-users me-2"></i>Quản lý học sinh
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Chức năng quản lý học sinh đang được phát triển.
+            </div>
+
+            <h6 class="mb-3">Danh sách học sinh</h6>
+            <p class="text-muted">Chưa có thông tin học sinh</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

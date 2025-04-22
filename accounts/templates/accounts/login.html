@@ -1,0 +1,46 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load form_tags %}
+{% block title %}
+  Đăng nhập | {{ block.super }}
+{% endblock %} {% block content %}
+  <div class="login-container">
+    <div class="login-image-container">
+      <i class="fas fa-school dashboard-icon"></i>
+    </div>
+
+    <div class="login-logo">School Management System</div>
+
+    <form method="post" class="login-form">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="{{ form.username.id_for_label }}" class="form-label"><i class="fas fa-user me-2"></i>{{ form.username.label }}</label>
+        {{ form.username|add_class:'form-control' }} {% if form.username.errors %}
+          <div class="text-danger">{{ form.username.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.password.id_for_label }}" class="form-label"><i class="fas fa-lock me-2"></i>{{ form.password.label }}</label>
+        {{ form.password|add_class:'form-control' }} {% if form.password.errors %}
+          <div class="text-danger">{{ form.password.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3 form-check">
+        {{ form.remember_me|add_class:'form-check-input' }}
+        <label class="form-check-label" for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label }}</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary login-btn"><i class="fas fa-sign-in-alt me-2"></i>Đăng nhập</button>
+    </form>
+
+    <div class="login-footer">
+      <p>
+        <a href="{% url 'password_reset' %}">Quên mật khẩu?</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

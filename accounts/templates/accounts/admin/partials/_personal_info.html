@@ -1,0 +1,87 @@
+{% load crispy_forms_tags %}
+
+<div class="form-section">
+  <h5 class="section-title">Thông tin cơ bản</h5>
+
+  <div class="row">
+    <div class="col-md-6">
+      {% if form.first_name %}
+        {{ form.first_name|as_crispy_field }}
+      {% else %}
+        <label for="id_first_name" class="form-label required-label">Họ</label>
+        <input type="text" name="first_name" id="id_first_name" class="form-control" required />
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      {% if form.last_name %}
+        {{ form.last_name|as_crispy_field }}
+      {% else %}
+        <label for="id_last_name" class="form-label required-label">Tên</label>
+        <input type="text" name="last_name" id="id_last_name" class="form-control" required />
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      {% if form.birth_date %}
+        {{ form.birth_date|as_crispy_field }}
+      {% elif form.date_of_birth %}
+        {{ form.date_of_birth|as_crispy_field }}
+      {% else %}
+        <label for="id_date_of_birth" class="form-label">Ngày sinh</label>
+        <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-control" />
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      {% if form.gender %}
+        {{ form.gender|as_crispy_field }}
+      {% else %}
+        <label for="id_gender" class="form-label">Giới tính</label>
+        <select name="gender" id="id_gender" class="form-select">
+          <option value="">-- Chọn giới tính --</option>
+          <option value="M">Nam</option>
+          <option value="F">Nữ</option>
+          <option value="O">Khác</option>
+        </select>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      {% if form.email %}
+        {{ form.email|as_crispy_field }}
+      {% else %}
+        <label for="id_email" class="form-label required-label">Email</label>
+        <input type="email" name="email" id="id_email" class="form-control" required />
+        <div class="form-text">Email sẽ được sử dụng để đăng nhập và nhận thông báo</div>
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      {% if form.phone_number %}
+        {{ form.phone_number|as_crispy_field }}
+      {% else %}
+        <label for="id_phone_number" class="form-label">Số điện thoại</label>
+        <input type="tel" name="phone_number" id="id_phone_number" class="form-control" />
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      {% if form.address %}
+        {{ form.address|as_crispy_field }}
+      {% else %}
+        <label for="id_address" class="form-label">Địa chỉ</label>
+        <textarea name="address" id="id_address" class="form-control" rows="3"></textarea>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if form.bio %}
+    <div class="row">
+      <div class="col-12">{{ form.bio|as_crispy_field }}</div>
+    </div>
+  {% endif %}
+</div>

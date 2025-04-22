@@ -1,0 +1,18 @@
+{% if edit_mode %}
+  <div class="d-flex justify-content-between mt-4">
+    <a href="{% url 'admin_user_list' %}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-1"></i>Quay lại danh sách</a>
+    <div>
+      {% if not user.is_active %}
+        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#activateModal"><i class="fas fa-user-check me-1"></i>Kích hoạt tài khoản</button>
+      {% else %}
+        <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#deactivateModal"><i class="fas fa-user-slash me-1"></i>Vô hiệu hóa tài khoản</button>
+      {% endif %}
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>Lưu thay đổi</button>
+    </div>
+  </div>
+{% else %}
+  <div class="form-section">
+    <button type="submit" class="btn btn-primary w-100 mb-3"><i class="fas fa-user-plus me-1"></i>Tạo người dùng</button>
+    <a href="{% url 'admin_user_list' %}" class="btn btn-outline-secondary w-100"><i class="fas fa-arrow-left me-1"></i>Quay lại danh sách</a>
+  </div>
+{% endif %}

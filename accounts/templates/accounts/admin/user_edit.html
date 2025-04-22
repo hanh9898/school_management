@@ -1,0 +1,117 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Chỉnh sửa người dùng | School Management
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2><i class="fas fa-user-edit me-2"></i>Chỉnh sửa người dùng</h2>
+        <p class="text-muted">
+          Chỉnh sửa thông tin người dùng: <strong>{{ user.get_full_name }}</strong>
+        </p>
+      </div>
+      <div>
+        <a href="{% url 'admin_user_list' %}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-1"></i>Quay lại danh sách</a>
+      </div>
+    </div>
+
+    <!-- User Status -->
+    <div class="mb-4">
+      <div class="d-flex align-items-center">
+        <div class="me-3">
+          <img src="{{ user.get_avatar_url }}" alt="{{ user.get_full_name }}" class="rounded-circle user-thumbnail" width="60" height="60" />
+        </div>
+        <div>
+          <h4 class="mb-1">{{ user.get_full_name }}</h4>
+          <div class="d-flex align-items-center">
+            <div class="badge bg-primary me-2">{{ user.get_role_display }}</div>
+            {% if user.is_active %}
+              <span class="status-badge status-active"><i class="fas fa-check-circle me-1"></i>Đang hoạt động</span>
+            {% else %}
+              <span class="status-badge status-inactive"><i class="fas fa-times-circle me-1"></i>Ngưng hoạt động</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" id="user-edit-form">
+      {% csrf_token %}
+
+      <!-- Tabs -->
+      <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true"><i class="fas fa-user me-1"></i>Thông tin cá nhân</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false"><i class="fas fa-shield-alt me-1"></i>Thông tin tài khoản</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="role-tab" data-bs-toggle="tab" data-bs-target="#role" type="button" role="tab" aria-controls="role" aria-selected="false"><i class="fas fa-user-tag me-1"></i>Vai trò và quyền hạn</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab" aria-controls="activity" aria-selected="false"><i class="fas fa-chart-line me-1"></i>Hoạt động</button>
+        </li>
+      </ul>
+
+      <!-- Tab content -->
+      <div class="tab-content" id="myTabContent">
+        <!-- Thông tin cá nhân -->
+        <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-section">
+                <h5 class="section-title">Avatar</h5>
+                {% with edit_mode=True %}
+                  {% include 'accounts/admin/partials/_avatar_upload.html' %}
+                {% endwith %}
+              </div>
+            </div>
+
+            <div class="col-md-9">
+              {% include 'accounts/admin/partials/_personal_info.html' %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Thông tin tài khoản -->
+        <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+          {% with edit_mode=True %}
+            {% include 'accounts/admin/partials/_account_info.html' %}
+          {% endwith %}
+        </div>
+
+        <!-- Vai trò và quyền hạn -->
+        <div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">
+          {% with edit_mode=True %}
+            {% include 'accounts/admin/partials/_role_selection.html' %}
+            {% include 'accounts/admin/partials/_role_specific_info.html' %}
+          {% endwith %}
+        </div>
+
+        <!-- Hoạt động -->
+        <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+          {% include 'accounts/admin/partials/_activity_info.html' %}
+        </div>
+      </div>
+
+      {% with edit_mode=True %}
+        {% include 'accounts/admin/partials/_form_actions.html' %}
+      {% endwith %}
+    </form>
+  </div>
+
+  {% with edit_mode=True %}
+    {% include 'accounts/admin/partials/_modals.html' %}
+  {% endwith %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'accounts/js/user_form.js' %}"></script>
+{% endblock %}

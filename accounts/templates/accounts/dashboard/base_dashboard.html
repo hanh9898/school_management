@@ -1,0 +1,58 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}
+  Dashboard | School Management
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">
+              <i class="fas fa-tachometer-alt me-2"></i>
+              {% block dashboard_title %}
+                Dashboard
+              {% endblock %}
+            </h4>
+            <p class="text-muted">
+              {% block dashboard_subtitle %}
+                Chào mừng bạn đến với hệ thống quản lý trường học
+              {% endblock %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {% block dashboard_cards %}
+        <!-- Các card sẽ được định nghĩa trong các template con -->
+      {% endblock %}
+
+      <!-- Tài khoản và bảo mật - phần chung cho tất cả các dashboard -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-header">
+            <i class="fas fa-shield-alt me-2"></i>Tài khoản & Bảo mật
+          </div>
+          <div class="card-body">
+            {% include 'accounts/dashboard/partials/_account_security.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block additional_content %}
+
+    {% endblock %}
+  </div>
+{% endblock %}
+
+{% block extra_scripts %}
+  {% block dashboard_scripts %}
+
+  {% endblock %}
+{% endblock %}

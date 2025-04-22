@@ -1,0 +1,99 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}
+  Tạo người dùng mới | School Management
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'dashboard' %}">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="{% url 'admin_user_list' %}">Quản lý người dùng</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Tạo người dùng mới</li>
+      </ol>
+    </nav>
+
+    <div class="page-header mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2><i class="fas fa-user-plus me-2"></i>Tạo người dùng mới</h2>
+      </div>
+      <p class="text-muted">Tạo tài khoản người dùng mới trong hệ thống</p>
+    </div>
+
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <strong>Có lỗi khi tạo người dùng:</strong>
+        <ul class="mb-0 mt-2">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <li>{{ field }}: {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" id="user-create-form">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- Thông tin cá nhân -->
+          <div class="form-section">
+            <h5 class="form-section-title"><i class="fas fa-user"></i>Thông tin cá nhân</h5>
+
+            {% include 'accounts/admin/partials/_personal_info.html' %}
+          </div>
+
+          <!-- Thông tin tài khoản -->
+          <div class="form-section">
+            <h5 class="form-section-title"><i class="fas fa-user-shield"></i>Thông tin tài khoản</h5>
+
+            {% with edit_mode=False %}
+              {% include 'accounts/admin/partials/_account_info.html' %}
+            {% endwith %}
+          </div>
+
+          <!-- Thông báo -->
+          {% include 'accounts/admin/partials/_notifications.html' %}
+        </div>
+
+        <div class="col-lg-4">
+          <!-- Avatar và vai trò -->
+          <div class="form-section text-center">
+            <h5 class="form-section-title text-start"><i class="fas fa-image"></i>Ảnh đại diện</h5>
+
+            <div class="d-flex flex-column align-items-center">
+              {% with edit_mode=False %}
+                {% include 'accounts/admin/partials/_avatar_upload.html' %}
+              {% endwith %}
+            </div>
+          </div>
+
+          <!-- Vai trò -->
+          <div class="form-section">
+            <h5 class="form-section-title"><i class="fas fa-user-tag"></i>Vai trò người dùng</h5>
+
+            {% with edit_mode=False %}
+              {% include 'accounts/admin/partials/_role_selection.html' %}
+            {% endwith %}
+          </div>
+
+          <!-- Buttons -->
+          {% with edit_mode=False %}
+            {% include 'accounts/admin/partials/_form_actions.html' %}
+          {% endwith %}
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %} {% block extra_js %}
+  <script src="{% static 'accounts/js/user_form.js' %}"></script>
+{% endblock %}

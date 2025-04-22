@@ -1,0 +1,74 @@
+/* Styles cho login page */
+.login-container {
+    max-width: 450px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.login-image-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-logo {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Styles cho profile page */
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+}
+
+/* Styles cho icons trong dashboard và admin page */
+.dashboard-icon, .admin-icon {
+    color: var(--primary-color);
+    font-size: 60px;
+}
+
+.accent-icon {
+    color: var(--accent-color);
+    font-size: 3x;
+}
+
+.success-icon {
+    color: #27ae60;
+    font-size: 3x;
+}
+
+.warning-icon {
+    color: #f39c12;
+    font-size: 3x;
+}
+
+/* User icon trong navbar */
+.user-icon {
+    font-size: 24px;
+}
+
+/* User thumbnail trong admin */
+.user-thumbnail {
+    object-fit: cover;
+}

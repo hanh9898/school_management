@@ -1,0 +1,90 @@
+{% extends "accounts/base.html" %} {% load static %} {% load i18n %} {% block
+title %}Yêu cầu quyền | {{ block.super }}{% endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-unlock-alt me-2"></i>Yêu cầu quyền bổ sung
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info mb-4">
+          <i class="fas fa-info-circle me-2"></i>
+          Nếu bạn cần thêm quyền để thực hiện công việc, hãy gửi yêu cầu tại
+          đây. Quản trị viên sẽ xem xét và phê duyệt nếu phù hợp.
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="permission" class="form-label">Quyền yêu cầu</label>
+            <select name="permission" id="permission" class="form-select">
+              <option value="">-- Chọn quyền --</option>
+              {% for permission in permissions %}
+              <option value="{{ permission.codename }}">
+                {{ permission.name }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="reason" class="form-label">Lý do yêu cầu</label>
+            <textarea
+              name="reason"
+              id="reason"
+              class="form-control"
+              rows="5"
+              placeholder="Giải thích lý do bạn cần quyền này và cách bạn sẽ sử dụng nó"
+              required
+            ></textarea>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left me-1"></i>Quay lại
+            </a>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane me-1"></i>Gửi yêu cầu
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-shield-alt me-2"></i>Quyền hiện tại của bạn
+        </h5>
+      </div>
+      <div class="card-body">
+        <h6 class="mb-3">Nhóm quyền</h6>
+        <div class="mb-4">
+          {% for group in user.groups.all %}
+          <span class="badge bg-secondary me-2 mb-2">{{ group.name }}</span>
+          {% empty %}
+          <p class="text-muted">Bạn chưa thuộc nhóm nào.</p>
+          {% endfor %}
+        </div>
+
+        <h6 class="mb-3">Quyền hạn cá nhân</h6>
+        <ul class="list-group">
+          {% for permission in user.get_all_permissions %}
+          <li class="list-group-item">
+            <i class="fas fa-check-circle text-success me-2"></i>{{ permission
+            }}
+          </li>
+          {% empty %}
+          <li class="list-group-item text-muted">
+            Không có quyền cá nhân nào.
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

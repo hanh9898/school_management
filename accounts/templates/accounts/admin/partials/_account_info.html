@@ -1,0 +1,77 @@
+{% load crispy_forms_tags %}
+
+<div class="form-section">
+  <h5 class="section-title">Thông tin đăng nhập (Có thể bỏ trống)</h5>
+
+  <div class="row">
+    <div class="col-md-6">
+      {% if form.username %}
+        {{ form.username|as_crispy_field }}
+      {% else %}
+        <label for="id_username" class="form-label required-label">Tên đăng nhập</label>
+        <input type="text" name="username" id="id_username" class="form-control" />
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      {% if edit_mode %}
+        <div class="mb-3">
+          <label class="form-label">Ngày tạo tài khoản</label>
+          <input type="text" class="form-control" value="{{ user.date_joined|date:'d/m/Y H:i' }}" readonly />
+        </div>
+      {% else %}
+        <div class="mb-3">
+          <label for="id_is_active" class="form-label">Trạng thái</label>
+          <div class="mt-2">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="id_is_active" name="is_active" checked />
+              <label class="form-check-label" for="id_is_active">Tài khoản được kích hoạt</label>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if edit_mode %}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="is_active" id="id_is_active" checked="{{ user.is_active }}" />
+          <label class="form-check-label" for="id_is_active">Tài khoản hoạt động</label>
+          <div class="form-help-text">
+            <i class="fas fa-info-circle me-1"></i>Tài khoản không hoạt động sẽ không thể đăng nhập vào hệ thống
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">Đăng nhập lần cuối</label>
+          <input type="text" class="form-control" value="{{ user.last_login|date:'d/m/Y H:i'|default:'Chưa đăng nhập' }}" readonly />
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="mt-4">
+    {% if edit_mode %}
+      <h5>Thay đổi mật khẩu</h5>
+      <p class="text-muted">Để trống nếu không muốn thay đổi mật khẩu</p>
+
+      <div class="row">
+        <div class="col-md-6">{{ password_form.new_password1|as_crispy_field }}</div>
+        <div class="col-md-6">{{ password_form.new_password2|as_crispy_field }}</div>
+      </div>
+    {% else %}
+      <div class="row">
+        <div class="col-md-6">{{ form.password1|as_crispy_field }}</div>
+        <div class="col-md-6">{{ form.password2|as_crispy_field }}</div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-outline-secondary btn-generate-password" id="generate-password-btn"><i class="fas fa-key me-2"></i>Tạo mật khẩu ngẫu nhiên</button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Hệ thống quản lý trường học{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'accounts/css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}" />
+    <link rel="stylesheet" href="{% static 'accounts/css/components.css' %}" />
+    <link rel="stylesheet" href="{% static 'accounts/css/admin.css' %}" />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">
+          <i class="fas fa-school me-2"></i>School Management
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard' %}">
+                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+              </a>
+            </li>
+
+            <!-- Hiển thị menu tùy theo vai trò -->
+            {% if user.is_admin %} {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin:index' %}">
+                <i class="fas fa-cog me-1"></i>Admin
+              </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin_user_list' %}">
+                <i class="fas fa-users me-1"></i>Quản lý người dùng
+              </a>
+            </li>
+            {% endif %} {% endif %} {% endif %}
+          </ul>
+
+          {% if user.is_authenticated %}
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                {% if user.avatar %}
+                <img
+                  src="{{ user.avatar.url }}"
+                  alt="{{ user.get_full_name }}"
+                  class="avatar-img me-2"
+                />
+                {% else %}
+                <i class="fas fa-user-circle me-2 user-icon"></i>
+                {% endif %} {{ user.get_full_name|default:user.username }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <span class="dropdown-item-text">
+                    <span class="role-badge role-{{ user.role }}"
+                      >{{ user.get_role_display }}</span
+                    >
+                  </span>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'profile' %}">
+                    <i class="fas fa-user me-2"></i>Hồ sơ
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'change_password' %}">
+                    <i class="fas fa-key me-2"></i>Đổi mật khẩu
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          {% else %}
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">
+                <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
+              </a>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- Messages/Alerts -->
+    <div class="container mt-3">
+      {% if messages %} {% for message in messages %}
+      <div
+        class="alert alert-{{ message.tags }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="container content-container">
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container text-center">
+        <p>
+          &copy; {% now "Y" %} School Management System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'accounts/js/accounts.js' %}"></script>
+    <script src="{% static 'accounts/js/components.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

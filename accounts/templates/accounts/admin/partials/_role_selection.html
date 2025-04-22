@@ -1,0 +1,109 @@
+{% if edit_mode %}
+  <div class="form-section">
+    <h5 class="section-title">Chọn vai trò cho người dùng</h5>
+    <p class="text-muted mb-4">Vai trò quyết định quyền hạn và chức năng mà người dùng có thể truy cập trong hệ thống</p>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="role-option {% if user.role == 'admin' %}selected{% endif %}" data-role="admin">
+          <div class="text-center">
+            <div class="role-icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="role-title">Quản trị viên</div>
+            <div class="role-desc">Có toàn quyền quản lý hệ thống và người dùng</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="role-option {% if user.role == 'teacher' %}selected{% endif %}" data-role="teacher">
+          <div class="text-center">
+            <div class="role-icon">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <div class="role-title">Giáo viên</div>
+            <div class="role-desc">Quản lý lớp học, khóa học và học sinh</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="role-option {% if user.role == 'student' %}selected{% endif %}" data-role="student">
+          <div class="text-center">
+            <div class="role-icon">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="role-title">Học sinh</div>
+            <div class="role-desc">Truy cập khóa học, bài tập và xem kết quả học tập</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="role-option {% if user.role == 'parent' %}selected{% endif %}" data-role="parent">
+          <div class="text-center">
+            <div class="role-icon">
+              <i class="fas fa-user-friends"></i>
+            </div>
+            <div class="role-title">Phụ huynh</div>
+            <div class="role-desc">Theo dõi kết quả học tập của học sinh</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" name="role" id="id_role" value="{{ user.role }}" />
+  </div>
+{% else %}
+  <div class="role-options">
+    <label class="role-option" id="role-admin">
+      <input type="radio" name="role" value="admin" />
+      <div class="d-flex">
+        <div class="role-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <div>
+          <div class="role-name">Quản trị viên</div>
+          <div class="role-description">Quyền truy cập đầy đủ vào hệ thống</div>
+        </div>
+      </div>
+    </label>
+
+    <label class="role-option" id="role-teacher">
+      <input type="radio" name="role" value="teacher" />
+      <div class="d-flex">
+        <div class="role-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div>
+          <div class="role-name">Giáo viên</div>
+          <div class="role-description">Quản lý lớp học, điểm và bài tập</div>
+        </div>
+      </div>
+    </label>
+
+    <label class="role-option" id="role-student">
+      <input type="radio" name="role" value="student" checked />
+      <div class="d-flex">
+        <div class="role-icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <div>
+          <div class="role-name">Học sinh</div>
+          <div class="role-description">Xem lớp học, điểm và làm bài tập</div>
+        </div>
+      </div>
+    </label>
+
+    <label class="role-option" id="role-parent">
+      <input type="radio" name="role" value="parent" />
+      <div class="d-flex">
+        <div class="role-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+        <div>
+          <div class="role-name">Phụ huynh</div>
+          <div class="role-description">Theo dõi học sinh và nhận thông báo</div>
+        </div>
+      </div>
+    </label>
+  </div>
+{% endif %}

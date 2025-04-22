@@ -1,0 +1,132 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load form_tags %}
+
+{% block title %}
+  Admin Dashboard | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="mb-3"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h1>
+      <p class="text-muted">Chào mừng, {{ user.get_full_name }}! Quản lý hệ thống của bạn.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Quản lý người dùng -->
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-users fa-3x mb-3 dashboard-icon"></i>
+          <h5 class="card-title">Quản lý người dùng</h5>
+          <p class="card-text">Thêm, sửa và quản lý tài khoản người dùng</p>
+          <a href="{% url 'admin_user_list' %}" class="btn btn-primary"><i class="fas fa-external-link-alt me-1"></i>Truy cập</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quản lý nhóm và quyền -->
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-shield-alt fa-3x mb-3 accent-icon"></i>
+          <h5 class="card-title">Nhóm & Quyền</h5>
+          <p class="card-text">Quản lý nhóm và phân quyền hệ thống</p>
+          <a href="{% url 'admin:auth_group_changelist' %}" class="btn btn-primary"><i class="fas fa-external-link-alt me-1"></i>Truy cập</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nhập người dùng từ Excel -->
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-file-excel fa-3x mb-3 success-icon"></i>
+          <h5 class="card-title">Nhập Excel</h5>
+          <p class="card-text">Tạo tài khoản hàng loạt từ file Excel</p>
+          <a href="{% url 'admin:accounts_user_import_excel' %}" class="btn btn-primary"><i class="fas fa-upload me-1"></i>Nhập Excel</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quản lý quyền riêng -->
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <i class="fas fa-key fa-3x mb-3 warning-icon"></i>
+          <h5 class="card-title">Quyền hệ thống</h5>
+          <p class="card-text">Quản lý các quyền chi tiết trong hệ thống</p>
+          <a href="{% url 'admin:auth_permission_changelist' %}" class="btn btn-primary"><i class="fas fa-external-link-alt me-1"></i>Truy cập</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thông tin hệ thống -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-info-circle me-2"></i>Thông tin hệ thống
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <h6><i class="fas fa-user me-2"></i>Thông tin tài khoản</h6>
+              <ul class="list-unstyled ps-4">
+                <li>
+                  <strong>Tên đăng nhập:</strong> {{ user.username }}
+                </li>
+                <li>
+                  <strong>Email:</strong> {{ user.email }}
+                </li>
+                <li>
+                  <strong>Vai trò:</strong> {{ user.get_role_display }}
+                </li>
+                <li>
+                  <strong>Đăng nhập lần cuối:</strong> {{ user.last_login|date:'d/m/Y H:i' }}
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+              <h6><i class="fas fa-shield-alt me-2"></i>Nhóm và quyền</h6>
+              <ul class="list-unstyled ps-4">
+                <li>
+                  <strong>Nhóm:</strong>
+                  {% for group in user.groups.all %}
+                    <span class="badge bg-secondary">{{ group.name }}</span>
+                  {% empty %}
+                    <span class="text-muted">Không có nhóm</span>
+                  {% endfor %}
+                </li>
+                <li>
+                  <strong>Quyền:</strong> <span class="text-muted">Quyền quản trị viên</span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+              <h6><i class="fas fa-tools me-2"></i>Công cụ quản trị</h6>
+              <ul class="list-unstyled ps-4">
+                <li>
+                  <a href="{% url 'admin_user_list' %}">Quản lý người dùng</a>
+                </li>
+                <li>
+                  <a href="{% url 'admin_user_create' %}">Thêm người dùng mới</a>
+                </li>
+                <li>
+                  <a href="{% url 'admin:auth_group_changelist' %}">Quản lý nhóm</a>
+                </li>
+                <li>
+                  <a href="{% url 'admin:accounts_user_import_excel' %}">Nhập người dùng từ Excel</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
