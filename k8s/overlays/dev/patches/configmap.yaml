@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: school-management-config
+data:
+  DEBUG: "True"
+  ALLOWED_HOSTS: "localhost,127.0.0.1,school-management.com"
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"

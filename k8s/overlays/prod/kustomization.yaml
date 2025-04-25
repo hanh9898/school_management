@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namePrefix: prod-
+
+resources:
+  - ../../base
+
+patchesStrategicMerge:
+  - patches/configmap.yaml
+  - patches/django-deployment.yaml
+  - patches/ingress.yaml
+  - patches/secret.yaml
+
+images:
+  - name: school-management
+    newName: school-management
+    newTag: prod

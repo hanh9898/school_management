@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "django_filters",
     "import_export",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [

@@ -44,10 +44,11 @@ Hệ thống có 4 vai trò chính:
 ## Cài đặt và Triển khai
 
 ### Yêu cầu hệ thống
-- Python 3.10+
-- Django 5.0+
+- Python 3.13+
+- Django 5.2+
 - PostgreSQL
 - Docker và Docker Compose (tùy chọn)
+- Kubernetes (tùy chọn)
 - Các thư viện trong file requirements.txt
 
 ### Cài đặt với Docker (Khuyến nghị)
@@ -63,7 +64,7 @@ Hệ thống có 4 vai trò chính:
 
 3. Xây dựng và khởi chạy các container:
    ```bash
-   docker-compose up -d --build
+   ./deploy.sh --docker
    ```
 
 4. Tạo tài khoản quản trị:
@@ -79,6 +80,48 @@ Hệ thống có 4 vai trò chính:
 6. Truy cập hệ thống:
    - Trang quản trị: http://localhost:8000/admin/
    - Trang chủ: http://localhost:8000/
+
+### Cài đặt với Docker cho Debug
+
+Để debug ứng dụng trong Docker, sử dụng profile debug:
+
+```bash
+./deploy.sh --docker debug
+```
+
+Profile này cấu hình debugpy để cho phép debug từ xa qua cổng 5678.
+
+### Cài đặt với Kubernetes
+
+Dự án này hỗ trợ triển khai trên Kubernetes. Xem thêm hướng dẫn chi tiết trong thư mục [k8s/README.md](k8s/README.md).
+
+1. Cài đặt Kind (Kubernetes in Docker):
+   ```bash
+   brew install kind
+   kind create cluster --name school-management --config kind-config.yaml
+   ```
+
+2. Sử dụng script `deploy.sh` để triển khai ứng dụng:
+
+   ```bash
+   # Build Docker image
+   ./deploy.sh --build latest
+
+   # Triển khai lên môi trường phát triển
+   ./deploy.sh --k8s dev
+
+   # Hoặc tự động build và deploy khi code thay đổi
+   ./deploy.sh --auto-deploy
+   ```
+
+   Xem thêm hướng dẫn chi tiết trong [deploy.md](deploy.md)
+
+3. Truy cập ứng dụng:
+   - Thêm dòng sau vào file `/etc/hosts`:
+     ```
+     127.0.0.1   school-management.com
+     ```
+   - Truy cập: http://school-management.com
 
 ### Cài đặt môi trường phát triển thông thường
 
